@@ -1,0 +1,46 @@
+CREATE VIEW HospitalPatientCount AS
+SELECT H.Hname, H.HCity, COUNT(P.pid) AS PatientCount
+FROM Hospital H
+LEFT JOIN Patient P ON H.Hos_id = P.Hos_id
+GROUP BY H.Hos_id;
+
+
+
+CREATE VIEW DoctorDetails AS
+SELECT D.Dname, D.Qualification, H.Hname
+FROM Doctor D
+JOIN Hospital H ON D.Hos_id = H.Hos_id;
+
+
+
+CREATE VIEW PatientMedicalRecords AS
+SELECT P.pname, MR.Problem, D.Dname AS DoctorName, MR.Date_of_examination
+FROM Medical_Record MR
+JOIN Patient P ON MR.patient_id = P.pid
+JOIN Doctor D ON MR.Doc_id = D.Doc_id;
+
+
+
+CREATE VIEW DoctorPatientCount AS
+SELECT D.Dname, COUNT(MR.patient_id) AS TotalPatients
+FROM Doctor D
+LEFT JOIN Medical_Record MR ON D.Doc_id = MR.Doc_id
+GROUP BY D.Doc_id;
+
+
+
+CREATE VIEW HospitalDoctors AS
+SELECT H.Hname, D.Dname, D.Qualification
+FROM Hospital H
+JOIN Doctor D ON H.Hos_id = D.Hos_id;
+
+
+SELECT * FROM DoctorDetails;
+
+SELECT * FROM PatientMedicalRecords;
+
+SELECT * FROM DoctorPatientCount;
+
+SELECT * FROM HospitalDoctors;
+
+SELECT * FROM HospitalPatientCount;
