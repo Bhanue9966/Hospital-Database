@@ -1,0 +1,99 @@
+DELIMITER $$
+
+CREATE PROCEDURE AddNewPatient(
+    IN pid INT, 
+    IN pname VARCHAR(100), 
+    IN pdiagnosis VARCHAR(255), 
+    IN Hos_id INT, 
+    IN paddress VARCHAR(255)
+)
+BEGIN
+    INSERT INTO Patient (pid, pname, pdiagnosis, Hos_id, paddress)
+    VALUES (pid, pname, pdiagnosis, Hos_id, paddress);
+END $$
+
+DELIMITER ;
+
+
+
+CALL AddNewPatient(3021, 'Jessica Yellow', 'Cough', 1001, '111 Rose St');
+
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE UpdateDoctorSalary(
+    IN Doc_id INT, 
+    IN newSalary DECIMAL(10, 2)
+)
+BEGIN
+    UPDATE Doctor 
+    SET Salary = newSalary
+    WHERE Doc_id = Doc_id;
+END $$
+
+DELIMITER ;
+
+
+
+CALL UpdateDoctorSalary(2005, 130000.00);
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE GetPatientMedicalRecords(
+    IN patientId INT
+)
+BEGIN
+    SELECT MR.rec_id, MR.Problem, MR.Date_of_examination, D.Dname
+    FROM Medical_Record MR
+    JOIN Doctor D ON MR.Doc_id = D.Doc_id
+    WHERE MR.patient_id = patientId;
+END $$
+
+DELIMITER ;
+
+
+
+CALL GetPatientMedicalRecords(3001);
+
+
+DELIMITER $$
+
+CREATE TRIGGER SetExaminationDate
+BEFORE INSERT ON Medical_Record
+FOR EACH ROW
+BEGIN
+    -- Set the Date_of_examination to the current date
+    SET NEW.Date_of_examination = CURDATE();
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER UpdatePatientDiagnosis
+AFTER INSERT ON Medical_Record
+FOR EACH ROW
+BEGIN
+    -- Update the patient's diagnosis to "Checked"
+    UPDATE Patient
+    SET pdiagnosis = 'Checked'
+    WHERE pid = NEW.patient_id;
+END $$
+
+DELIMITER ;
+
+
+
+INSERT INTO Medical_Record (rec_id, Problem, patient_id, Doc_id)
+VALUES (1001, 'Flu-like symptoms', 3001, 2005);
+
+
+
+INSERT INTO Medical_Record (rec_id, Problem, patient_id, Doc_id)
+VALUES (1002, 'Headache and dizziness', 3002, 2006);
