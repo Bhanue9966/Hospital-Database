@@ -1,0 +1,99 @@
+CREATE TABLE Hospital (
+    Hos_id INT PRIMARY KEY,
+    Hname VARCHAR(100) NOT NULL,
+    Haddress VARCHAR(255) NOT NULL,
+    HCity VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Patient (
+    pid INT PRIMARY KEY,
+    pname VARCHAR(100) NOT NULL,
+    pdiagnosis VARCHAR(255),
+    Hos_id INT,
+    paddress VARCHAR(255),
+    FOREIGN KEY (Hos_id) REFERENCES Hospital(Hos_id)
+);
+
+
+CREATE TABLE Doctor (
+    Doc_id INT PRIMARY KEY,
+    Dname VARCHAR(100) NOT NULL,
+    Qualification VARCHAR(100),
+    Hos_id INT,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (Hos_id) REFERENCES Hospital(Hos_id)
+);
+
+
+CREATE TABLE Medical_Record (
+    rec_id INT PRIMARY KEY,
+    Problem VARCHAR(255) NOT NULL,
+    patient_id INT,
+    Doc_id INT,
+    Date_of_examination DATE,
+    FOREIGN KEY (patient_id) REFERENCES Patient(pid),
+    FOREIGN KEY (Doc_id) REFERENCES Doctor(Doc_id)
+);
+
+
+INSERT INTO Hospital (Hos_id, Hname, Haddress, HCity) VALUES
+(1, 'City Hospital', '123 Main St', 'New York'),
+(2, 'Green Valley Hospital', '456 Elm St', 'Los Angeles'),
+(3, 'Sunshine Hospital', '789 Maple Ave', 'Chicago'),
+(4, 'Health First Clinic', '101 Pine St', 'Houston'),
+(5, 'Care Plus Hospital', '202 Oak St', 'Miami');
+
+
+INSERT INTO Doctor (Doc_id, Dname, Qualification, Hos_id, Salary) VALUES
+(1, 'Dr. John Smith', 'MBBS', 1, 120000.00),
+(2, 'Dr. Emily Brown', 'MD', 1, 135000.00),
+(3, 'Dr. Michael Davis', 'MBBS', 2, 110000.00),
+(4, 'Dr. Sarah Wilson', 'MD', 2, 145000.00),
+(5, 'Dr. David Martinez', 'DO', 3, 125000.00),
+(6, 'Dr. Laura Clark', 'MBBS', 3, 118000.00),
+(7, 'Dr. James Johnson', 'MD', 4, 130000.00),
+(8, 'Dr. Linda Lewis', 'MBBS', 4, 115000.00),
+(9, 'Dr. Robert Walker', 'DO', 5, 122000.00),
+(10, 'Dr. Barbara Hall', 'MD', 5, 138000.00);
+
+
+INSERT INTO Patient (pid, pname, pdiagnosis, Hos_id, paddress) VALUES
+(1, 'Alice Green', 'Flu', 1, '12 King St'),
+(2, 'Bob White', 'Migraine', 1, '34 Queen St'),
+(3, 'Charlie Black', 'Asthma', 1, '56 Prince St'),
+(4, 'Diana Blue', 'Diabetes', 2, '78 Duke St'),
+(5, 'Eve Red', 'Hypertension', 2, '90 Duchess St'),
+(6, 'Frank Silver', 'Allergy', 2, '22 Earl St'),
+(7, 'Grace Gold', 'Fracture', 3, '44 Baron St'),
+(8, 'Henry Copper', 'Bronchitis', 3, '66 Baroness St'),
+(9, 'Ivy Scarlet', 'Anemia', 3, '88 Count St'),
+(10, 'Jack Crimson', 'Chickenpox', 4, '100 Viscount St'),
+(11, 'Kathy Violet', 'Malaria', 4, '101 Countess St'),
+(12, 'Leo Azure', 'Pneumonia', 4, '102 Duke St'),
+(13, 'Mona Jade', 'Arthritis', 5, '103 Lady St'),
+(14, 'Nate Amber', 'Tuberculosis', 5, '104 Gentleman St'),
+(15, 'Olivia Pearl', 'Epilepsy', 5, '105 Squire St'),
+(16, 'Paul Quartz', 'Dengue', 1, '106 Knight St'),
+(17, 'Quinn Topaz', 'Lupus', 2, '107 Princess St'),
+(18, 'Ruby Onyx', 'Fever', 3, '108 Herald St'),
+(19, 'Steve Teal', 'Stroke', 4, '109 Master St'),
+(20, 'Tina Olive', 'Gastritis', 5, '110 Maiden St');
+
+
+INSERT INTO Medical_Record (rec_id, Problem, patient_id, Doc_id, Date_of_examination) VALUES
+(1, 'Flu Treatment', 1, 1, '2024-01-15'),
+(2, 'Migraine Relief', 2, 2, '2024-02-10'),
+(3, 'Asthma Management', 3, 1, '2024-03-05'),
+(4, 'Diabetes Control', 4, 4, '2024-04-20'),
+(5, 'Hypertension Medication', 5, 4, '2024-05-18'),
+(6, 'Allergy Test', 6, 3, '2024-06-25'),
+(7, 'Fracture Surgery', 7, 5, '2024-07-30'),
+(8, 'Bronchitis Checkup', 8, 6, '2024-08-12'),
+(9, 'Anemia Treatment', 9, 5, '2024-09-10'),
+(10, 'Chickenpox Vaccine', 10, 7, '2024-10-01'),
+(11, 'Malaria Diagnosis', 11, 8, '2024-10-20'),
+(12, 'Pneumonia Therapy', 12, 7, '2024-11-05'),
+(13, 'Arthritis Pain Relief', 13, 9, '2024-11-08'),
+(14, 'Tuberculosis Cure', 14, 9, '2024-11-10'),
+(15, 'Epilepsy Control', 15, 10, '2024-11-12');
+
