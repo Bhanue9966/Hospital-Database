@@ -1,0 +1,50 @@
+SELECT * FROM Hospital;
+
+
+SELECT Hname, HCity FROM Hospital;
+
+
+SELECT D.Dname, D.Qualification, H.Hname
+FROM Doctor D
+JOIN Hospital H ON D.Hos_id = H.Hos_id;
+
+
+SELECT pname, pdiagnosis FROM Patient;
+
+
+SELECT MR.rec_id, MR.Problem, MR.Date_of_examination, D.Dname 
+FROM Medical_Record MR
+JOIN Doctor D ON MR.Doc_id = D.Doc_id
+WHERE MR.patient_id = 3001;
+
+
+SELECT D.Dname, P.pname, P.pdiagnosis
+FROM Doctor D
+JOIN Medical_Record MR ON D.Doc_id = MR.Doc_id
+JOIN Patient P ON MR.patient_id = P.pid;
+
+
+SELECT P.pname, P.pdiagnosis
+FROM Patient P
+JOIN Hospital H ON P.Hos_id = H.Hos_id
+WHERE H.Hos_id = 1001;
+
+
+SELECT D.Dname 
+FROM Doctor D
+JOIN Medical_Record MR ON D.Doc_id = MR.Doc_id
+WHERE MR.patient_id = 3001;
+
+
+SELECT H.Hname, COUNT(P.pid) AS Total_Patients
+FROM Hospital H
+JOIN Patient P ON H.Hos_id = P.Hos_id
+GROUP BY H.Hname;
+
+
+SELECT MR.rec_id, MR.Problem, P.pname, D.Dname, MR.Date_of_examination
+FROM Medical_Record MR
+JOIN Patient P ON MR.patient_id = P.pid
+JOIN Doctor D ON MR.Doc_id = D.Doc_id
+WHERE MR.Date_of_examination BETWEEN '2024-01-01' AND '2024-06-30';
+
